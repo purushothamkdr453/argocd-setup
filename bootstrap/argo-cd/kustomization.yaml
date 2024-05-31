@@ -15,3 +15,16 @@ kind: Kustomization
 namespace: argocd
 resources:
 - https://github.com/argoproj-labs/argocd-autopilot/manifests/ha
+patches:
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: argocd-server
+    patch: |-
+      - op: add
+        path: /spec/ports/0/nodePort
+        value: 30010
+      - op: replace
+        path: /spec/type
+        value: NodePort
